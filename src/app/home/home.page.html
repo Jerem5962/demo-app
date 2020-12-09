@@ -1,20 +1,60 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Démo App
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ul>
+      <li *ngFor="let student of students">
+        {{ student.name }}
+      </li>
+    </ul>
+  <div>
+    {{ message }}
+  </div>
+
+  <ion-chip 
+    (click) = "popover()"
+    color="success">Test Popover</ion-chip>
+  <div>
+    <span *ngIf="numFastStudent > 1">
+      <strong>{{ numFastStudent }}</strong>
+      étudiants ont terminés leur projet
+    </span>
+    <span *ngIf="numFastStudent == 1">
+      <strong>{{ numFastStudent }}</strong>
+      étudiant a terminé son projet
+    </span>
+    <span *ngIf="numFastStudent == 0">
+      Aucun étudiant n'a terminé son projet
+    </span>
+  </div>
+
+  <ion-list>
+    <ion-item *ngFor="let student of students; let i=index">
+      <ion-avatar>
+        <img src="./assets/th.jfif" [alt]="student.name">
+      </ion-avatar>
+
+      <ion-label>{{ student.name }}</ion-label>
+
+
+      <ion-badge [color]="student.grade < 10 ? 'danger' : 'success'">{{ student.grade }}</ion-badge>
+      <ion-checkbox color="danger" 
+        class="ion-margin-start" 
+        [checked]="student.isProjectDone"
+        (ionChange)="onChange($event, i)">
+      </ion-checkbox>
+      <ion-icon 
+        *ngIf="student.isProjectDone"
+        name="folder-outline"></ion-icon>
+
+      <ion-button class="ion-margin-start" (click)="onClick(i)">OK</ion-button>
+    </ion-item>
+  </ion-list>
   </div>
 </ion-content>
